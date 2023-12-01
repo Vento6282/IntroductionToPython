@@ -18,8 +18,8 @@ print(f"{a} - {b} - {c}")
 print("{} - {} - {}".format(a, b, c))
 
 print("Введите первое число:")
-a = input()
+a = int(input())
 
-b = input('Введите второе число:')
+b = int(input('Введите второе число:'))
 
 print(a, ' + ', b, ' = ', a + b)
