@@ -40,6 +40,22 @@
 # Температуры – целые числа и лежат в диапазоне от –50 до 50
 # Input: 6 -> -20 30 -40 50 10 -10
 # Output: 2
+# import random
+
+# maxDays = 0
+# countDays = 0
+# d = int(input("Введите количество дней: "))
+# for i in range(d):
+#     temperature = random.randint(-50, 50)
+#     print (temperature, end = " ")
+#     if temperature >=0:
+#         countDays = countDays + 1
+#     else:
+#         if countDays > maxDays:
+#             maxDays = countDays
+#         countDays = 0
+# print()
+# print(maxDays)
 # ------------------------------------------------------------------------------------------------------
 # Иван Васильевич пришел на рынок и решил купить два арбуза: один для себя, а другой для тещи.
 # Понятно, что для себя нужно выбрать арбуз потяжелей, а для тещи полегче. Но вот незадача:
@@ -48,11 +64,20 @@
 # записанных на новой строчке каждое. Здесь каждое число – это масса соответствующего арбуза
 # Input: 5 -> 5 1 6 5 9
 # Output: 1 9
+# import random
 
-
-
-
-
-
-
-
+# count = int(input("Введите количество арбузов: "))
+# massa = random.randint(1, 9)
+# max_count = massa
+# min_count = massa
+# for i in range(count-1):
+#     massa = random.randint(1, 9)
+#     print(massa, end = " ")
+#     # if massa > max:
+#     #     max = massa
+#     # if massa < min:
+#     #     min = massa
+#     max_count = max(max_count, massa)
+#     min_count = min(min_count, massa)
+# print()
+# print(f"{min_count} {max_count}")
