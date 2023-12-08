@@ -77,12 +77,12 @@ list_dicts = [{"V": "S002"}, {"V": "S001", " VIII":" S007"}, {"VI": " S001"}, {"
 
 # Решение 5
 
-# unique_values = set()
+unique_values = set()
 
-# for cur_dict in list_dicts:
-#     unique_values.update(cur_dict.values())
+for cur_dict in list_dicts:
+    unique_values.update(cur_dict.values())
 
-# print(unique_values)
+print(unique_values)
 # ------------------------------------------------------------------------
 # Дан массив, состоящий из целых чисел. Напишите программу, которая подсчитает количество
 # элементов массива, больших предыдущего (элемента с предыдущим номером)
