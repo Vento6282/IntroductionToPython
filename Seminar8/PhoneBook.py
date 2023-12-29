@@ -56,14 +56,30 @@ def create_contact():
 def add_contact(contact):
     with open('phonebook.txt', 'a', encoding='UTF-8') as file:
         file.write(contact)
-        
+
+def copy_contact():
+    show_info()
+    numbers_contacts_list = []
+    with open('phonebook.txt', 'r', encoding='UTF-8') as file:
+        contacts_list = file.read().rstrip().split('\n\n')
+        for nn, contact in enumerate(contacts_list,1):
+            numbers_contacts_list.append(str(nn))
+    print(numbers_contacts_list)
+
+    copy_index = input('Введите номер контакт, который необходимо копировать: ')
+
+    while copy_index not in numbers_contacts_list:
+        print('Контакта с таким номер не существует!')
+        copy_index = input('Введите номер контакт, который необходимо копировать: ')
+
+
 def show_info():
     with open('phonebook.txt', 'r', encoding='UTF-8') as file:
         contacts_list = file.read().rstrip().split('\n\n')
         for contact in enumerate(contacts_list,1):
             print(*contact)
-
         # print(file.read().rstrip())
+            
 def search_contact():
     print(
         'Возможные варианты поиска:\n'
@@ -95,16 +111,17 @@ def interface():
     with open('phonebook.txt', 'a', encoding='UTF-8'):
         pass
     command = '-1'
-    while command != '4':
+    while command != '5':
         print('Возможные варианты взаимодействия:\n'
             '1. Добавить контакт\n'
-            '2. Вывести на экран\n'
-            '3. Поиск контакта\n'
-            '4. Выход из программы')
+            '2. Копировать контакт в новую телефонную книгу\n'
+            '3. Вывести на экран\n'
+            '4. Поиск контакта\n'
+            '5. Выход из программы')
         
         command = input('Введите пункт меню: ')
         
-        while command not in ('1', '2', '3', '4'):
+        while command not in ('1', '2', '3', '4', '5'):
             print('Некорретные данные')
             command = input('Введите пункт меню: ')
 
@@ -112,9 +129,11 @@ def interface():
             case '1':   
                 add_contact(create_contact())
             case '2':   
-                show_info()
+                copy_contact()                
             case '3':   
-                search_contact()
+                show_info()
             case '4':   
+                search_contact()
+            case '5':   
                 print('Всего хорошего!')
 interface()
