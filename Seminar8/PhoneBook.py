@@ -16,8 +16,8 @@
 # 3) Вывести данные из файла на экран:           +++
 #     - открыть файл в режиме чтения (r)         +++
 #     - вывести информацию на экран              +++
-# 4) Поиск данных
-#     - запросить вариант поиска у пользователя  
+# 4) Поиск данных                                +++
+#     - запросить вариант поиска у пользователя  +++
 #     - запросить информацию у пользователя      +++
 #     - открыть файл в режиме чтения (r)         +++
 #     - сохранить данные в переменную            +++
@@ -28,6 +28,7 @@
 #     - получение запроса от пользователя        +++
 #     - реализация запроса от пользователя       +++
 #     - выход из программы                       +++
+import re
 
 def input_name():
     return input('Введите имя: ')
@@ -58,24 +59,37 @@ def add_contact(contact):
         
 def show_info():
     with open('phonebook.txt', 'r', encoding='UTF-8') as file:
-        print(file.read().rstrip())
+        contacts_list = file.read().rstrip().split('\n\n')
+        for contact in enumerate(contacts_list,1):
+            print(*contact)
 
+        # print(file.read().rstrip())
 def search_contact():
+    print(
+        'Возможные варианты поиска:\n'
+        '1. По фамилии\n'
+        '2. По имени\n'
+        '3. По отчеству\n'
+        '4. По номеру телефона\n'
+        '5. По адресу'
+    )
+    var_search = input('Выберите варинат поиска: ')
+    
+    while var_search not in ('1', '2', '3', '4', '5'):
+        print('Некорретные данные')
+        var_search = input('Выберите варинат поиска: ')
 
-    var_search = input('Выберите варинат поиска: \n'
-            '1. Добавить контакт\n'
-            '2. Вывести на экран\n'
-            '3. Поиск контакта\n'
-            '4. Выход из программы')
-
-
+    index_var = int(var_search)-1
 
     search = input('Введите данные для поиска: ')
+
     with open('phonebook.txt', 'r', encoding='UTF-8') as file:
-        contacts_list = file.read().split('\n\n')
+        contacts_list = file.read().rstrip().split('\n\n')
+
     for contact_str in contacts_list:
-        if search in contact_str:
-            print(contact_str)
+        contact_lst = re.split(" |\n", contact_str)
+        if search in contact_lst[index_var]:
+            print(contact_lst)
 
 def interface():
     with open('phonebook.txt', 'a', encoding='UTF-8'):
