@@ -28,22 +28,47 @@
 #     - получение запроса от пользователя        +++
 #     - реализация запроса от пользователя       +++
 #     - выход из программы                       +++
+# 6) Копирование контакта в другой файл                        +++
+#     - вывести список контактов                               +++
+#     - добавить возможность выхода из режима копирования      +++
+#     - запросить информацию для копирования:                  +++
+#         а) номер записи                                      +++
+#         б) имя файла                                         +++
+#     - реализовать проверку имени файла на допустимые символы +++
+#     - записать контакт в новый файл                          +++
+
+
 import re
 
 def input_name():
-    return input('Введите имя: ')
+    name = input('Введите имя: ')
+    if name == '':
+        name = 'default_имя'
+    return name
 
 def input_surname():
-    return input('Введите фамилию: ')
+    surname = input('Введите фамилию: ')
+    if surname == '':
+        surname = 'default_фамилия'
+    return surname
 
 def input_patronymic():
-    return input('Введите отчество: ')
+    patronymic = input('Введите отчество: ')
+    if patronymic == '':
+        patronymic = 'default_отчество'
+    return patronymic
 
 def input_phone():
-    return input('Введите номер телефона: ')
+    phone = input('Введите номер телефона: ')
+    if phone == '':
+        phone = 'default_012345'
+    return phone
 
 def input_address():
-    return input('Введите адрес: ')
+    address = input('Введите адрес: ')
+    if address == '':
+        address = 'default_адрес'
+    return address
 
 def create_contact():
     surname = input_surname()
@@ -58,26 +83,55 @@ def add_contact(contact):
         file.write(contact)
 
 def copy_contact():
-    show_info()
-    numbers_contacts_list = []
-    with open('phonebook.txt', 'r', encoding='UTF-8') as file:
-        contacts_list = file.read().rstrip().split('\n\n')
-        for nn, contact in enumerate(contacts_list,1):
-            numbers_contacts_list.append(str(nn))
-    print(numbers_contacts_list)
-
-    copy_index = input('Введите номер контакт, который необходимо копировать: ')
-
-    while copy_index not in numbers_contacts_list:
-        print('Контакта с таким номер не существует!')
-        copy_index = input('Введите номер контакт, который необходимо копировать: ')
-
+    is_empty_show_info = show_info()
+    if is_empty_show_info == 1:
+        numbers_contacts_list = []
+        with open('phonebook.txt', 'r', encoding='UTF-8') as file:
+            contacts_list = file.read().rstrip().split('\n\n')
+            contacts_list.append('Выход из режима копирования')
+            print(f'{len(contacts_list)} Выход из режима копирования')
+            if len(contacts_list) > 0:
+                for nn, contact in enumerate(contacts_list,1):
+                    numbers_contacts_list.append(str(nn))
+                copy_index = input('Введите номер контакта, который необходимо копировать: ')
+                while copy_index not in numbers_contacts_list:
+                    print('Контакта с таким номером не существует!')
+                    copy_index = input('Введите номер контакта, который необходимо копировать: ')
+                if copy_index == str(len(numbers_contacts_list)):
+                    print('Выход из режима копирования')
+                else:
+                    file_name = input('Введите имя файла: ')
+                    forbidden_file_name = 1
+                    for i in file_name:
+                        if i in '''\\/:*?"<>|+''' or file_name.endswith('.'): 
+                            forbidden_file_name = 1
+                            print('Введён недопустимый символ!')
+                            file_name = input('Введите имя файла: ')
+                        else:
+                            forbidden_file_name = 0
+                    while forbidden_file_name == 1: 
+                        for i in file_name:
+                            if i in '''\\/:*?"<>|+''' or file_name.endswith('.'): 
+                                forbidden_file_name = 1
+                                print('Введён недопустимый символ!')
+                                file_name = input('Введите имя файла: ')
+                            else:
+                                forbidden_file_name = 0
+                    file_name += '.txt'
+                    with open(file_name, 'a', encoding='UTF-8') as file:
+                        file.write(f'{contacts_list[int(copy_index)-1]}\n\n')
+                    print(f'Контакт скопирован в файл {file_name}') 
 
 def show_info():
     with open('phonebook.txt', 'r', encoding='UTF-8') as file:
         contacts_list = file.read().rstrip().split('\n\n')
-        for contact in enumerate(contacts_list,1):
-            print(*contact)
+        if contacts_list[0] == '':
+            print('Телефонная книга пуста!')
+            return 0
+        else:
+            for contact in enumerate(contacts_list,1):
+                print(*contact)
+            return 1
         # print(file.read().rstrip())
             
 def search_contact():
@@ -114,7 +168,7 @@ def interface():
     while command != '5':
         print('Возможные варианты взаимодействия:\n'
             '1. Добавить контакт\n'
-            '2. Копировать контакт в новую телефонную книгу\n'
+            '2. Копировать контакт в другой файл\n'
             '3. Вывести на экран\n'
             '4. Поиск контакта\n'
             '5. Выход из программы')
